@@ -1,4 +1,4 @@
-const prompt = require('prompt-sync')({ sigint: true });
+const prompt = require('prompt-sync')({ sigint: true }); // requires prompt sync node module
 
 const hat = '^';
 const hole = 'O';
@@ -17,7 +17,7 @@ class Field {
     // print method - prints current state of the field
     print() {
         for (let i = 0; i < this.field.length; i++) {
-            console.log(this.field[i].join(""))
+            console.log(this.field[i].join("")) // joins array and removes the commas and spaces
         }
     }// end of print method
 
@@ -126,7 +126,7 @@ class Field {
         }; //end of randTile
 
         // generates a field with height and width from parameters
-        for (let i = 0; i < height; i++) {
+        for (let i = 0; i < height; i++) { // creates rows
             array.push([]);
             for (let j = 0; j < width; j++) {
                 array[i].push(randPosition()); // populates the field with either a hole or fieldCharacter
@@ -149,7 +149,8 @@ class Field {
         array[0][0] = pathCharacter; // allocates position of player to 0, 0
         return array; // generateField returns populated array
     }// end of generateField
+
 }; // end of Field class
 
 const myField = new Field(Field.generateField(10, 10)); // creates a playing field of height 10 width 10
-myField.playGame();
+myField.playGame(); // calls playGame method
