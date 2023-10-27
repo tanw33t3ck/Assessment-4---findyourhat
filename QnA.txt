@@ -1,0 +1,16 @@
+What did you like about this project?
+
+I love how this project taught me to create a working game. 
+It made me understand how classes and methods work with each other.
+The project also gave me a rough idea on how developers systematically approach a task of creating an application. 
+
+What did you struggle with in this project?
+
+I did not know how to start this project. I personally feel that this project had a great spike in difficulty.
+Although the materials were covered during class and in Codecademy, 
+making sense and putting everything together was extremely difficult.
+
+What would make your experience with this assessment better?
+Mini projects(creating methods, classes, algorithms relating to the final assessment)  
+leading up to this assessment would be useful. It would give me incremental practice and a chance to put
+what I have learnt together.
