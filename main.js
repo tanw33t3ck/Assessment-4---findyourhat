@@ -5,6 +5,12 @@ const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
 
+const OUTOFBOUNDS = 1;
+const WIN = 2;
+const LOSE = 3;
+const SAFE = 4;
+const QUIT = 5;
+
 // defines a Field class
 class Field {
     constructor(arr) {
@@ -21,93 +27,104 @@ class Field {
         }
     }// end of print method
 
-    // playGame method
+    gameResult(decision) {
+        switch (decision) {
+            case WIN:
+                console.log('You found your hat! Congratulations!');
+                break;
+            case LOSE:
+                console.log('You fell into a hole! Game Over!');
+                break;
+            case SAFE:
+                this.field[this.ylocation][this.xlocation] = pathCharacter; // check if player is safe and updates current position
+                this.print() // updates current state of the field
+                break;
+            case OUTOFBOUNDS:
+                console.log('You are out of the playing field. Game Over!');
+                process.exit(); 
+            default:
+                console.log('You have quit the game!');
+                process.exit();
+         } // end of switch
+    }// end of gameResult method
+    
+// playGame method
     playGame() {
         this.print(); // calls on print method to print current state of the field
 
         // while loop to check that initialised location (0, 0) is not a hat or a hole
         while (this.field[this.ylocation][this.xlocation] !== hat && this.field[this.ylocation][this.xlocation] !== hole) {
             const answer = prompt('which direction do you want to go? "w" = up, "s" = down, "a" = left, "d" = right: ').toLowerCase();
-
-            // if-else to process player's decision if player chooses 'w'(up)
-            if (answer === "w") {
-                this.ylocation -= 1; // this.ylocation is reduced by 1 and continues to check if player is safe, won or lost
-                if (this.ylocation === -1) { // checks if player is out of bounds
-                    console.log('You are out of the playing field. Game Over!');
+            
+            switch (answer) {
+                case 'w':
+                    this.ylocation -= 1; // this.ylocation is reduced by 1 and continues to check if player is safe, won or lost
+                    if (this.ylocation === -1) { // checks if player is out of bounds
+                        this.gameResult(OUTOFBOUNDS);
+                    }// end of if(out of bounds)
+                    else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
+                        this.gameResult(WIN);
+                    }// end of if(hat)
+                    else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
+                        this.gameResult(LOSE);
+                    }// end of if(hole)
+                    else {
+                        this.gameResult(SAFE);
+                        answer; // prompts player to make the next input
+                    }
                     break;
-                }// end of if(out of bounds)
-                else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
-                    console.log('You found your hat! Congratulations!');
-                }// end of if(hat)
-                else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
-                    console.log('You fell into a hole! Game Over!');
-                }// end of if(hole)
-                else {
-                    this.field[this.ylocation][this.xlocation] = pathCharacter; // check if player is safe and updates current position
-                    this.print() // updates current state of the field
-                    answer; // prompts player to make the next input
-                }
-            }// end of if(up)
-
-            // if-else to process player's decision if player chooses 's'(down)
-            if (answer === "s") {
-                this.ylocation += 1; // this.ylocation is increased by 1 and continues to check if player is safe, won or lost
-                if (this.ylocation === this.field.length) { // checks if player is out of bounds
-                    console.log('You are out of the playing field. Game Over!');
+                case 's':
+                    this.ylocation += 1; // this.ylocation is increased by 1 and continues to check if player is safe, won or lost
+                    if (this.ylocation === this.field.length) { // checks if player is out of bounds
+                        this.gameResult(OUTOFBOUNDS);
+                    }// end of if(out of bounds)
+                    else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
+                        this.gameResult(WIN);
+                    }// end of if(hat)
+                    else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
+                        this.gameResult(LOSE);
+                    }// end of if(hole)
+                    else {
+                        this.gameResult(SAFE);
+                        answer; // prompts player to make the next input
+                    }
                     break;
-                }// end of if(out of bounds)
-                else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
-                    console.log('You found your hat! Congratulations!');
-                }// end of if(hat)
-                else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
-                    console.log('You fell into a hole! Game Over!');
-                }// end of if(hole)
-                else {
-                    this.field[this.ylocation][this.xlocation] = pathCharacter; // check if player is safe and updates current position
-                    this.print() // updates current state of the field
-                    answer; // prompts player to make the next input
-                }
-            }// end of if(down)
-
-            // if-else to process player's decision if player chooses 'a'(left)
-            if (answer === "a") {
-                this.xlocation -= 1; // this.xlocation is reduced by 1 and continues to check if player is safe, won or lost
-                if (this.xlocation === -1) { // checks if player is out of bounds
-                    console.log('You are out of the playing field. Game Over!');
+                case 'a':
+                    this.xlocation -= 1; // this.xlocation is reduced by 1 and continues to check if player is safe, won or lost
+                    if (this.xlocation === -1) { // checks if player is out of bounds
+                        this.gameResult(OUTOFBOUNDS);
+                    }// end of if(out of bounds)
+                    else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
+                        this.gameResult(WIN);
+                    }// end of if(hat)
+                    else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
+                        this.gameResult(LOSE);
+                    }// end of if(hole)
+                    else {
+                        this.gameResult(SAFE);
+                        answer; // prompts player to make the next input
+                    }
                     break;
-                }// end of if(out of bounds)
-                else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
-                    console.log('You found your hat! Congratulations!');
-                }// end of if(hat)
-                else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
-                    console.log('You fell into a hole! Game Over!');
-                }// end of if(hole)
-                else {
-                    this.field[this.ylocation][this.xlocation] = pathCharacter; // check if player is safe and updates current position
-                    this.print() // updates current state of the field
-                    answer; // prompts player to make the next input
-                }
-            }// end of if(left)
-
-            // if-else to process player's decision if player chooses 'd'(right)
-            if (answer === "d") {
-                this.xlocation += 1; // this.xlocation is reduced by 1 and continues to check if player is safe, won or lost
-                if (this.xlocation === this.field[0].length) { // checks if player is out of bounds
-                    console.log('You are out of the playing field. Game Over!');
-                    break;
-                }// end of if(out of bounds)
-                else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
-                    console.log('You found your hat! Congratulations!');
-                }// end of if(hat)
-                else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
-                    console.log('You fell into a hole! Game Over!');
-                }// end of if(hole)
-                else {
-                    this.field[this.ylocation][this.xlocation] = pathCharacter; // check if player is safe and updates current position
-                    this.print() // updates current state of the field
-                    answer; // prompts player to make the next input
-                }
-            }// end of if(right)
+                case 'd':
+                    this.xlocation += 1; // this.xlocation is reduced by 1 and continues to check if player is safe, won or lost
+                    if (this.xlocation === this.field[0].length) { // checks if player is out of bounds
+                        this.gameResult(OUTOFBOUNDS);
+                    }// end of if(out of bounds)
+                    else if (this.field[this.ylocation][this.xlocation] === hat) { // checks if player has found his hat
+                        this.gameResult(WIN);
+                    }// end of if(hat)
+                    else if (this.field[this.ylocation][this.xlocation] === hole) { // checks if player fell into a hole
+                        this.gameResult(LOSE);
+                    }// end of if(hole)
+                    else {
+                        this.gameResult(SAFE);
+                        answer; // prompts player to make the next input
+                    }
+                    break;   
+                default:
+                    this.gameResult(QUIT);
+                    break;       
+            }
         }//end of while loop
     }// end of playGame method
 
